@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto de Vida</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(156, 163, 175, 0.4);
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen transition-colors duration-300 font-sans">
+  <!-- Header / Navbar -->
+  <header class="border-b border-gray-800 bg-gray-900/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-sky-600 rounded-xl text-white shadow-lg shadow-sky-500/20">
+          <i class="fa-solid fa-compass text-xl"></i>
+        </div>
+        <h1 class="text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">
+          Projeto de Vida
+        </h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="themeToggle" class="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition">
+          <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
+          <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+        </button>
+        <button id="resetData" class="text-xs text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-lg border border-red-500/20 transition">
+          Resetar Dados
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <!-- Profile & Purpose Banner -->
+    <section class="bg-gradient-to-r from-gray-800 to-gray-850 p-6 sm:p-8 rounded-2xl border border-gray-800 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
+        <div class="space-y-2 max-w-2xl">
+          <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-sky-400">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+            Visão Geral
+          </div>
+          <h2 id="userName" contenteditable="true" class="text-3xl sm:text-4xl font-extrabold text-white outline-none border-b border-transparent hover:border-gray-600 focus:border-sky-500 rounded px-1 transition">
+            Seu Nome Aqui
+          </h2>
+          <p id="userRole" contenteditable="true" class="text-lg text-sky-400 font-medium outline-none border-b border-transparent hover:border-gray-600 focus:border-sky-500 rounded px-1 transition">
+            Engenheiro de Software & Desenvolvedor
+          </p>
+          <p id="userPurpose" contenteditable="true" class="text-gray-400 text-sm sm:text-base leading-relaxed outline-none border-b border-transparent hover:border-gray-600 focus:border-sky-500 rounded px-1 transition">
+            "Construindo uma carreira sólida com foco em aprendizado constante, autonomia financeira, hábitos saudáveis e impacto positivo."
+          </p>
+        </div>
+
+        <!-- Overall Progress Card -->
+        <div class="bg-gray-900/80 border border-gray-700/60 p-5 rounded-xl min-w-[240px] w-full md:w-auto text-center shadow-lg">
+          <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Progresso Total das Metas</span>
+          <div class="text-3xl font-black text-sky-400 mt-1 mb-2" id="overallProgressPercent">0%</div>
+          <div class="w-full bg-gray-700 h-2.5 rounded-full overflow-hidden">
+            <div id="overallProgressBar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full w-0 transition-all duration-500"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 Pillars Section -->
+    <section class="space-y-4">
+      <h3 class="text-xl font-bold text-white flex items-center gap-2">
+        <i class="fa-solid fa-shapes text-sky-400"></i> Pilares de Vida
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="pillarsContainer">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Goals Grid (Short, Medium, Long Term) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-bullseye text-sky-400"></i> Metas & Objetivos
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Short Term -->
+        <div class="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-5 flex flex-col h-full shadow-lg">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-700/50 pb-3">
+            <h4 class="font-bold text-sky-400 flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-sm"></i> Curto Prazo (1 ano)
+            </h4>
+            <span class="text-xs bg-sky-500/10 text-sky-400 px-2.5 py-1 rounded-full font-semibold" id="countShort">0/0</span>
+          </div>
+          <div class="space-y-3 flex-grow overflow-y-auto max-h-[350px] custom-scrollbar pr-1" id="listShort"></div>
+          <form id="formShort" class="mt-4 flex gap-2">
+            <input type="text" placeholder="Nova meta..." required class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-sky-500">
+            <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- Medium Term -->
+        <div class="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-5 flex flex-col h-full shadow-lg">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-700/50 pb-3">
+            <h4 class="font-bold text-indigo-400 flex items-center gap-2">
+              <i class="fa-solid fa-mountain text-sm"></i> Médio Prazo (3-5 anos)
+            </h4>
+            <span class="text-xs bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded-full font-semibold" id="countMedium">0/0</span>
+          </div>
+          <div class="space-y-3 flex-grow overflow-y-auto max-h-[350px] custom-scrollbar pr-1" id="listMedium"></div>
+          <form id="formMedium" class="mt-4 flex gap-2">
+            <input type="text" placeholder="Nova meta..." required class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-indigo-500">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- Long Term -->
+        <div class="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-5 flex flex-col h-full shadow-lg">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-700/50 pb-3">
+            <h4 class="font-bold text-purple-400 flex items-center gap-2">
+              <i class="fa-solid fa-crown text-sm"></i> Longo Prazo (10+ anos)
+            </h4>
+            <span class="text-xs bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-full font-semibold" id="countLong">0/0</span>
+          </div>
+          <div class="space-y-3 flex-grow overflow-y-auto max-h-[350px] custom-scrollbar pr-1" id="listLong"></div>
+          <form id="formLong" class="mt-4 flex gap-2">
+            <input type="text" placeholder="Nova meta..." required class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-purple-500">
+            <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Habit Tracker & Vision Board Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Habit Tracker -->
+      <section class="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg flex flex-col">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-700/50">
+          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check text-sky-400"></i> Hábitos Diários
+          </h3>
+          <span class="text-xs text-gray-400">Checklist diária</span>
+        </div>
+        
+        <div class="space-y-3 flex-grow overflow-y-auto max-h-[300px] custom-scrollbar pr-1" id="habitsList"></div>
+
+        <form id="formHabit" class="mt-4 flex gap-2">
+          <input type="text" placeholder="Novo hábito (ex: Ler 15min, Exercício)..." required class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-sky-500">
+          <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1">
+            <i class="fa-solid fa-plus"></i> Adicionar
+          </button>
+        </form>
+      </section>
+
+      <!-- Vision Board / Inspiration Cards -->
+      <section class="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg flex flex-col">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-700/50">
+          <h3 class="text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-400"></i> Vision Board & Princípios
+          </h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-grow overflow-y-auto max-h-[300px] custom-scrollbar pr-1" id="visionList"></div>
+
+        <form id="formVision" class="mt-4 flex flex-col sm:flex-row gap-2">
+          <input type="text" id="visionTitle" placeholder="Título / Frase" required class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-amber-500">
+          <input type="url" id="visionImage" placeholder="URL da imagem (opcional)" class="bg-gray-900 border border-gray-700 text-sm text-white px-3 py-2 rounded-xl w-full focus:outline-none focus:border-amber-500">
+          <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1 shrink-0 justify-center">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-800 py-6 text-center text-xs text-gray-500">
+    <p>Projeto de Vida — Totalmente editável e salvo no seu navegador.</p>
+  </footer>
+
+  <script>
+    // Initial State
+    const defaultData = {
+      profile: {
+        name: "Renan Silva",
+        role: "Engenheiro de Software & Desenvolvedor",
+        purpose: "Construindo uma carreira sólida com foco em aprendizado constante, autonomia financeira, hábitos saudáveis e impacto positivo."
+      },
+      pillars: [
+        { id: 1, title: "Carreira & Dev", desc: "Evoluir como Desenvolvedor e criar produtos de impacto.", icon: "fa-code", color: "text-sky-400" },
+        { id: 2, title: "Finanças", desc: "Criar reserva de emergência e investir mensalmente.", icon: "fa-wallet", color: "text-emerald-400" },
+        { id: 3, title: "Saúde & Corpo", desc: "Atividade física regular e alimentação consciente.", icon: "fa-heart-pulse", color: "text-rose-400" },
+        { id: 4, title: "Estudos & Mente", desc: "Ler livros técnicos, aprender novas línguas e meditar.", icon: "fa-brain", color: "text-purple-400" },
+        { id: 5, title: "Relações", desc: "Dedicar tempo de qualidade à família e amigos.", icon: "fa-users", color: "text-amber-400" }
+      ],
+      goals: {
+        short: [
+          { id: 1, text: "Aprender TypeScript e React em nível avançado", done: true },
+          { id: 2, text: "Construir 3 projetos fullstack para o portfólio", done: false },
+          { id: 3, text: "Ler 6 livros de desenvolvimento e crescimento pessoal", done: false }
+        ],
+        medium: [
+          { id: 1, text: "Conquistar cargo de Engenheiro de Software Pleno/Senior", done: false },
+          { id: 2, text: "Alcançar primeiro marco de investimento e reserva", done: false },
+          { id: 3, text: "Realizar uma viagem internacional", done: false }
+        ],
+        long: [
+          { id: 1, text: "Alcançar independência financeira", done: false },
+          { id: 2, text: "Liderar equipes de tecnologia ou fundar uma startup", done: false }
+        ]
+      },
+      habits: [
+        { id: 1, name: "Codar ou estudar por 1h", done: true },
+        { id: 2, name: "Exercício físico / Caminhada", done: false },
+        { id: 3, name: "Ler 15 páginas de um livro", done: false },
+        { id: 4, name: "Beber 2.5L de água", done: true }
+      ],
+      vision: [
+        { id: 1, title: "Foco e Consistência", image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop&q=60" },
+        { id: 2, title: "Equilíbrio e Saúde", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&auto=format&fit=crop&q=60" }
+      ]
+    };
+
+    let state = JSON.parse(localStorage.getItem('projeto_vida_state')) || defaultData;
+
+    function saveState() {
+      localStorage.setItem('projeto_vida_state', JSON.stringify(state));
+      renderAll();
+    }
+
+    // Profile listeners
+    ['userName', 'userRole', 'userPurpose'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('blur', () => {
+        if(id === 'userName') state.profile.name = el.innerText.trim();
+        if(id === 'userRole') state.profile.role = el.innerText.trim();
+        if(id === 'userPurpose') state.profile.purpose = el.innerText.trim();
+        localStorage.setItem('projeto_vida_state', JSON.stringify(state));
+      });
+    });
+
+    function renderProfile() {
+      document.getElementById('userName').innerText = state.profile.name;
+      document.getElementById('userRole').innerText = state.profile.role;
+      document.getElementById('userPurpose').innerText = state.profile.purpose;
+    }
+
+    // Render Pillars
+    function renderPillars() {
+      const container = document.getElementById('pillarsContainer');
+      container.innerHTML = state.pillars.map(p => `
+        <div class="bg-gray-800/60 border border-gray-700/60 p-4 rounded-xl hover:border-gray-600 transition group flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid ${p.icon} ${p.color} text-lg"></i>
+              <h4 class="font-bold text-white text-sm">${p.title}</h4>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">${p.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Goals
+    function renderGoalsCategory(cat, listId, countId) {
+      const container = document.getElementById(listId);
+      const items = state.goals[cat];
+      const doneCount = items.filter(i => i.done).length;
+      
+      document.getElementById(countId).innerText = `${doneCount}/${items.length}`;
+
+      container.innerHTML = items.map(item => `
+        <div class="flex items-center justify-between p-3 bg-gray-900/60 border border-gray-700/40 rounded-xl group hover:border-gray-600 transition">
+          <label class="flex items-center gap-3 cursor-pointer w-full pr-2">
+            <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleGoal('${cat}', ${item.id})" class="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 bg-gray-800 border-gray-700">
+            <span class="text-sm ${item.done ? 'line-through text-gray-500' : 'text-gray-200'} transition">${item.text}</span>
+          </label>
+          <button onclick="deleteGoal('${cat}', ${item.id})" class="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition px-1">
+            <i class="fa-solid fa-trash-can text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function toggleGoal(cat, id) {
+      const item = state.goals[cat].find(i => i.id === id);
+      if(item) item.done = !item.done;
+      saveState();
+    }
+
+    function deleteGoal(cat, id) {
+      state.goals[cat] = state.goals[cat].filter(i => i.id !== id);
+      saveState();
+    }
+
+    function addGoal(cat, text) {
+      state.goals[cat].push({ id: Date.now(), text, done: false });
+      saveState();
+    }
+
+    // Setup Goal Forms
+    ['Short', 'Medium', 'Long'].forEach(cat => {
+      document.getElementById(`form${cat}`).addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = e.target.querySelector('input');
+        if(input.value.trim()) {
+          addGoal(cat.toLowerCase(), input.value.trim());
+          input.value = '';
+        }
+      });
+    });
+
+    // Render Progress Bar
+    function updateOverallProgress() {
+      const allGoals = [...state.goals.short, ...state.goals.medium, ...state.goals.long];
+      if(allGoals.length === 0) {
+        document.getElementById('overallProgressPercent').innerText = '0%';
+        document.getElementById('overallProgressBar').style.width = '0%';
+        return;
+      }
+      const done = allGoals.filter(g => g.done).length;
+      const pct = Math.round((done / allGoals.length) * 100);
+      document.getElementById('overallProgressPercent').innerText = `${pct}%`;
+      document.getElementById('overallProgressBar').style.width = `${pct}%`;
+    }
+
+    // Render Habits
+    function renderHabits() {
+      const container = document.getElementById('habitsList');
+      container.innerHTML = state.habits.map(h => `
+        <div class="flex items-center justify-between p-3 bg-gray-900/60 border border-gray-700/40 rounded-xl group hover:border-gray-600 transition">
+          <label class="flex items-center gap-3 cursor-pointer w-full">
+            <input type="checkbox" ${h.done ? 'checked' : ''} onchange="toggleHabit(${h.id})" class="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-800 border-gray-700">
+            <span class="text-sm ${h.done ? 'line-through text-gray-500' : 'text-gray-200'} transition">${h.name}</span>
+          </label>
+          <button onclick="deleteHabit(${h.id})" class="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition px-1">
+            <i class="fa-solid fa-trash-can text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function toggleHabit(id) {
+      const habit = state.habits.find(h => h.id === id);
+      if(habit) habit.done = !habit.done;
+      saveState();
+    }
+
+    function deleteHabit(id) {
+      state.habits = state.habits.filter(h => h.id !== id);
+      saveState();
+    }
+
+    document.getElementById('formHabit').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = e.target.querySelector('input');
+      if(input.value.trim()) {
+        state.habits.push({ id: Date.now(), name: input.value.trim(), done: false });
+        input.value = '';
+        saveState();
+      }
+    });
+
+    // Render Vision Board
+    function renderVision() {
+      const container = document.getElementById('visionList');
+      container.innerHTML = state.vision.map(v => `
+        <div class="relative group overflow-hidden rounded-xl border border-gray-700/50 bg-gray-900 h-28">
+          ${v.image ? `<img src="${v.image}" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition duration-300">` : ''}
+          <div class="absolute inset-0 p-3 flex flex-col justify-between bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent">
+            <h5 class="font-bold text-sm text-white drop-shadow">${v.title}</h5>
+            <div class="flex justify-end">
+              <button onclick="deleteVision(${v.id})" class="text-red-400 opacity-0 group-hover:opacity-100 transition p-1 hover:bg-gray-800/80 rounded">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function deleteVision(id) {
+      state.vision = state.vision.filter(v => v.id !== id);
+      saveState();
+    }
+
+    document.getElementById('formVision').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('visionTitle').value.trim();
+      const image = document.getElementById('visionImage').value.trim();
+      if(title) {
+        state.vision.push({ id: Date.now(), title, image });
+        document.getElementById('visionTitle').value = '';
+        document.getElementById('visionImage').value = '';
+        saveState();
+      }
+    });
+
+    // Reset Data
+    document.getElementById('resetData').addEventListener('click', () => {
+      if(confirm('Tem certeza que deseja resetar todas as alterações para o padrão?')) {
+        state = JSON.parse(JSON.stringify(defaultData));
+        saveState();
+      }
+    });
+
+    // Dark/Light Theme Toggle
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+
+    function renderAll() {
+      renderProfile();
+      renderPillars();
+      renderGoalsCategory('short', 'listShort', 'countShort');
+      renderGoalsCategory('medium', 'listMedium', 'countMedium');
+      renderGoalsCategory('long', 'listLong', 'countLong');
+      renderHabits();
+      renderVision();
+      updateOverallProgress();
+    }
+
+    // Initial render
+    renderAll();
+  </script>
+</body>
+</html>
